@@ -1,0 +1,24 @@
+{{- if .Values.role.enabled }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Values.fullnameOverride }}
+rules:
+  - apiGroups: [""]
+    resources: ["services", "pods", "configmaps", "endpoints"]
+    verbs: ["get", "watch", "list"]
+    
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Values.fullnameOverride }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Values.fullnameOverride }}
+    namespace: {{ .Values.namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Values.fullnameOverride }}
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}
