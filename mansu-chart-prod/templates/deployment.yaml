@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.fullnameOverride }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.fullnameOverride }}
+  replicas: {{ .Values.replicaCount | default 1 }}
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  minReadySeconds: 60
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.fullnameOverride }}
+    spec:
+      serviceAccountName: {{ .Values.fullnameOverride }}-prod
+      containers:
+      - name: {{ .Values.fullnameOverride }}
+        image: {{ .Values.image.repository }}
+        imagePullPolicy: Always
+        env:
+        {{- range .Values.env }}
+        - name: {{ .name }}
+          {{- if .value }}
+          value: {{ .value | quote }}
+          {{- else if .valueFrom }}
+          valueFrom:
+            {{- toYaml .valueFrom | nindent 12 }}
+          {{- end }}
+        {{- end }}
+        ports:
+        - containerPort: {{ .Values.containerPort }}
+          name: http
+          protocol: TCP
+        {{- if .Values.lProbe.enabled }}
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.lProbe.path }}
+            port: {{ .Values.containerPort }}
+          failureThreshold: {{ .Values.lProbe.failureThreshold }}
+          periodSeconds: {{ .Values.lProbe.periodSeconds }}
+          initialDelaySeconds: {{ .Values.lProbe.initialDelaySeconds }}
+        {{- end }}
+        {{- if .Values.rProbe.enabled }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.rProbe.path }}
+            port: {{ .Values.containerPort }}
+          failureThreshold: {{ .Values.rProbe.failureThreshold }}
+          periodSeconds: {{ .Values.rProbe.periodSeconds }}
+          initialDelaySeconds: {{ .Values.rProbe.initialDelaySeconds }}
+        {{- end }}
+        resources:
+        {{- $resources := .Values.resources | default dict }}
+        {{- if $resources }}
+          requests:
+            cpu: {{ $resources.requests.cpu | default "0.2" | quote }}
+            memory: {{ $resources.requests.memory | default "500Mi" | quote }}
+            ephemeral-storage: 200Mi
+          limits:
+            cpu: {{ $resources.limits.cpu | default "0.5" | quote }}
+            memory: {{ $resources.limits.memory | default "1Gi" | quote }}
+            ephemeral-storage: 1Gi
+        {{- else }}
+          requests:
+            cpu: 0.2
+            memory: 500Mi
+            ephemeral-storage: 200Mi
+          limits:
+            cpu: 0.5
+            memory: 1Gi
+            ephemeral-storage: 1Gi
+        {{- end }}
+        volumeMounts:
+        {{- with .Values.volumeMounts }}
+        {{ toYaml . | nindent 10 }}
+        {{- end }}
+      volumes:
+      {{- with .Values.volumes }}
+      {{ toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
