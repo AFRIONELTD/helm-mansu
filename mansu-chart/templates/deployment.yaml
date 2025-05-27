@@ -20,7 +20,7 @@ spec:
       labels:
         app: {{ .Values.fullnameOverride }}
     spec:
-      serviceAccountName: {{ .Values.fullnameOverride }}
+      serviceAccountName: {{ .Values.fullnameOverride }}-sbx
       containers:
       - name: {{ .Values.fullnameOverride }}
         image: {{ .Values.image.repository }}

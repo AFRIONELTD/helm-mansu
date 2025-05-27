@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ .Values.fullnameOverride }}
+  name: {{ .Values.fullnameOverride }}-sbx
 rules:
   - apiGroups: [""]
     resources: ["services", "pods", "configmaps", "endpoints"]
@@ -12,13 +12,13 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ .Values.fullnameOverride }}
+  name: {{ .Values.fullnameOverride }}-sbx
 subjects:
   - kind: ServiceAccount
-    name: {{ .Values.fullnameOverride }}
+    name: {{ .Values.fullnameOverride }}-sbx
     namespace: {{ .Values.namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Values.fullnameOverride }}
+  name: {{ .Values.fullnameOverride }}-sbx
   apiGroup: rbac.authorization.k8s.io
 {{- end }}
