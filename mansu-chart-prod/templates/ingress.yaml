@@ -17,7 +17,7 @@ metadata:
     alb.ingress.kubernetes.io/ssl-redirect: '443'
     alb.ingress.kubernetes.io/group.name: "mansu-prod"
 spec:
-  ingressClassName: {{ .Values.ingress.ingressClassName | default "alb"}}
+  ingressClassName: {{ .Values.ingress.ingressClassName | default "nginx"}}
   rules:
   {{- if .Values.ingress.host }}
     - host: "{{ .Values.ingress.host }}.{{ .Values.ingress.domain }}"
