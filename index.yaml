@@ -3,9 +3,9 @@ entries:
   mansu-chart:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2025-06-02T11:45:15.973083+01:00"
+    created: "2025-06-02T12:00:05.418817+01:00"
     description: A Helm chart for Kubernetes
-    digest: e8d83a4288573a28dd6aa709efb39daebf44dce0cc3bd8488e41e51a89f80a5c
+    digest: 7b59363b61b9a657fec7e9bc57cc74923af55c7c271e4960c1a3672db137fb15
     name: mansu-chart
     type: application
     urls:
@@ -14,12 +14,12 @@ entries:
   mansu-chart-prod:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2025-06-02T11:45:15.973777+01:00"
+    created: "2025-06-02T12:00:05.419505+01:00"
     description: A Helm chart for Kubernetes
-    digest: eb4ed47650efbdb33247f5f8046f81d2d67237de886293b2f00302daf5ffd081
+    digest: 9cf16a6595d10b8fbc347458bdb0bb69700c4ca0e01d9262abf58a617b3b3555
     name: mansu-chart-prod
     type: application
     urls:
     - https://afrioneltd.github.io/helm-mansu/mansu-chart-prod-0.1.0.tgz
     version: 0.1.0
-generated: "2025-06-02T11:45:15.969632+01:00"
+generated: "2025-06-02T12:00:05.415902+01:00"

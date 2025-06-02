@@ -16,6 +16,7 @@ metadata:
     alb.ingress.kubernetes.io/unhealthy-threshold-count: '2'
     alb.ingress.kubernetes.io/ssl-redirect: '443'
     alb.ingress.kubernetes.io/group.name: "mansu-sbx"
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-2:169761230259:certificate/f5d1af79-584d-4529-9831-30958513f72f
 spec:
   ingressClassName: {{ .Values.ingress.ingressClassName | default "alb"}}
   rules:
