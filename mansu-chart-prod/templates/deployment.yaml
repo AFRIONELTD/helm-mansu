@@ -35,6 +35,12 @@ spec:
             {{- toYaml .valueFrom | nindent 12 }}
           {{- end }}
         {{- end }}
+        {{- if .Values.envFrom }}
+        envFrom:
+        {{- with .Values.envFrom }}
+        {{ toYaml . | nindent 10 }}
+        {{- end }}
+        {{- end }}
         ports:
         - containerPort: {{ .Values.containerPort }}
           name: http
