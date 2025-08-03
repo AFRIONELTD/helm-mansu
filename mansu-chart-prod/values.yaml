@@ -1,0 +1,34 @@
+replicaCount: 1
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: ""
+
+fullnameOverride: ""
+namespace: "default"
+
+containerPort: 80
+
+env:
+  enabled: true
+  envVars:
+    - name: "EXAMPLE_VAR"
+      value: "Hello"
+  envFrom:
+    - secretRef:
+        name: "my-secret"
+
+lProbe:
+  enabled: false
+  path: "/"
+  failureThreshold: 3
+  periodSeconds: 10
+  initialDelaySeconds: 10
+
+rProbe:
+  enabled: false
+  path: "/"
+  failureThreshold: 3
+  periodSeconds: 10
+  initialDelaySeconds: 10
